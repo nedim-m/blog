@@ -11,5 +11,8 @@ namespace blog.Services.IServices
 {
     public interface IPostService:ICrudService<Post, PostSearchObjects, PostUpsertRequest, PostUpsertRequest>
     {
+        Post GetBySlug(string slug);
+        Post DeleteBySlug(string slug);
+        Post UpdateBySlug(string slug, PostUpsertRequest update);
     }
 }

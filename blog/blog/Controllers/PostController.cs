@@ -2,6 +2,7 @@
 using blog.Models.Requests;
 using blog.Models.SearchObjects;
 using blog.Services.IServices;
+using blog.Services.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,7 +18,29 @@ namespace blog.Controllers
             _service=service;
         }
 
-        
-        
+
+
+
+
+        [HttpGet("{slug}")]
+        public Post GetBySlug (string slug)
+        {
+            return _service.GetBySlug(slug);
+        }
+
+        [HttpDelete("{slug}")]
+        public Post DeleteBySlug(string slug)
+        {
+            return _service.DeleteBySlug(slug);
+        }
+
+
+        [HttpPut("{slug}")]
+        public Post UpdateBySlug(string slug,[FromBody] PostUpsertRequest update)
+        {
+         return _service.UpdateBySlug(slug, update);
+           
+        }
+
     }
 }

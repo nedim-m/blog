@@ -56,5 +56,51 @@ namespace blog.Services.Services
 
         }
 
+        public Models.Post GetBySlug(string slug)
+        {
+           var entity=_context.Posts.FirstOrDefault(p => p.Slug!.Equals(slug));
+            if (entity!=null)
+            {
+                return _mapper.Map<Models.Post>(entity);
+            }
+            return null;
+
+        }
+
+        public Models.Post DeleteBySlug(string slug)
+        {
+            var set = _context.Set<Database.Post>();
+            var entity = _context.Posts.FirstOrDefault(p => p.Slug!.Equals(slug));
+            var entityToReturn = _mapper.Map<Models.Post>(entity);
+            if (entity!=null)
+            {
+                set.Remove(entity);
+            }
+            else
+            {
+                return null;
+            }
+            _context.SaveChanges();
+            return entityToReturn;
+        }
+
+        public Models.Post UpdateBySlug(string slug, PostUpsertRequest update)
+        {
+            var set = _context.Set<Database.Post>();
+            var entity = _context.Posts.FirstOrDefault(p => p.Slug!.Equals(slug));
+
+            if (entity != null)
+            {
+                _mapper.Map(update, entity);
+            }
+            else
+            {
+                return null;
+            }
+            BeforeUpdate(update, entity);
+            _context.SaveChanges();
+
+            return _mapper.Map<Models.Post>(entity);
+        }
     }
 }

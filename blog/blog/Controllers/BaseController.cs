@@ -21,7 +21,7 @@ namespace blog.Controllers
             return _service.Get(search);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public T GetById(int id)
         {
             return _service.GetById(id);

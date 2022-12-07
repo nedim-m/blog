@@ -1,6 +1,7 @@
 ﻿using blog.Services.IServices;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace blog.Controllers
 {
@@ -23,6 +24,12 @@ namespace blog.Controllers
         public T Update(int id, [FromBody] TUpdate update)
         {
             var result = ((ICrudService<T, TSearch, TInsert, TUpdate>)this._service).Update(id, update);
+            return result;
+        }
+        [HttpDelete]
+        public T Delete(int id)
+        {
+            var result = ((ICrudService<T, TSearch, TInsert, TUpdate>)this._service).Delete(id);
             return result;
         }
     }

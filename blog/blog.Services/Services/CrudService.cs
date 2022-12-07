@@ -17,20 +17,20 @@ namespace blog.Services.Services
         {
         }
 
-        public T Insert(TInsert insert)
+        public virtual T Insert(TInsert insert)
         {
             var set = _context.Set<TDb>();
 
             TDb entity = _mapper.Map<TDb>(insert);
 
             set.Add(entity);
-
+            BeforeInsert(insert, entity);
             _context.SaveChanges();
 
             return _mapper.Map<T>(entity);
         }
 
-        public T Update(int id, TUpdate update)
+        public virtual T Update(int id, TUpdate update)
         {
             var set = _context.Set<TDb>();
             var entity = set.Find(id);
@@ -45,9 +45,30 @@ namespace blog.Services.Services
                 return null;
             }
 
+            BeforeUpdate(update, entity);
             _context.SaveChanges();
 
             return _mapper.Map<T>(entity);
+        }
+
+        public virtual void BeforeInsert(TInsert insert,TDb entity) { }
+        public virtual void BeforeUpdate(TUpdate update, TDb entity) { }
+
+        public T Delete(int id)
+        {
+            var set = _context.Set<TDb>();
+            var entity = set.Find(id);
+            var entityToReturn = _mapper.Map<T>(entity);
+            if (entity!=null)
+            {
+                set.Remove(entity);
+            }
+            else
+            {
+                return null;
+            }
+            _context.SaveChanges();
+            return entityToReturn;
         }
     }
 }

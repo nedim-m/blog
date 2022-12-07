@@ -22,7 +22,7 @@ namespace blog.Services.Services
             _mapper=mapper;
         }
 
-        public IEnumerable<T> Get(TSearch search = null)
+        public virtual IEnumerable<T> Get(TSearch search = null)
         {
             var entity = _context.Set<TDb>().AsQueryable();
           

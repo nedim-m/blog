@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace blog.Controllers
 {
 
-    public class PostController : BaseCrudController<Post, PostSearchObjects, PostUpsertRequest, PostUpsertRequest>
+    public class PostController : BaseCrudController<Post, PostSearchObjects, PostInsertRequest, PostUpdateRequest>
     {
         public IPostService _service { get; set; }
 
@@ -36,7 +36,7 @@ namespace blog.Controllers
 
 
         [HttpPut("{slug}")]
-        public Post UpdateBySlug(string slug,[FromBody] PostUpsertRequest update)
+        public Post UpdateBySlug(string slug,[FromBody] PostUpdateRequest update)
         {
          return _service.UpdateBySlug(slug, update);
            

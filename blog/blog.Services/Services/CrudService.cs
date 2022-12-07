@@ -54,6 +54,8 @@ namespace blog.Services.Services
         public virtual void BeforeInsert(TInsert insert,TDb entity) { }
         public virtual void BeforeUpdate(TUpdate update, TDb entity) { }
 
+      
+
         public T Delete(int id)
         {
             var set = _context.Set<TDb>();

@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace blog.Services.IServices
 {
-    public interface IPostService:ICrudService<Post, PostSearchObjects, PostUpsertRequest, PostUpsertRequest>
+    public interface IPostService:ICrudService<Post, PostSearchObjects, PostInsertRequest,PostUpdateRequest>
     {
         Post GetBySlug(string slug);
         Post DeleteBySlug(string slug);
-        Post UpdateBySlug(string slug, PostUpsertRequest update);
+        Post UpdateBySlug(string slug, PostUpdateRequest update);
     }
 }

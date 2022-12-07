@@ -14,10 +14,15 @@ namespace blog.Services.Services
         public MappingProfile()
         {
             CreateMap<Database.Post, Post>();
-            CreateMap<PostUpsertRequest, Database.Post>();
+            CreateMap<PostInsertRequest, Database.Post>();
+            CreateMap<PostUpdateRequest, Database.Post>();
 
 
             CreateMap<Database.Tag, Tag>();
+
+
+            CreateMap<Database.Comment, Comment>();
+            CreateMap<CommentInsertRequest, Database.Comment>();
 
 
         }

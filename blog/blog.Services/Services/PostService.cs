@@ -13,19 +13,26 @@ using System.Threading.Tasks;
 
 namespace blog.Services.Services
 {
-    public class PostService : CrudService<Models.Post, Database.Post, PostSearchObjects, PostUpsertRequest, PostUpsertRequest>, IPostService
+    public class PostService : CrudService<Models.Post, Database.Post, PostSearchObjects, PostInsertRequest, PostUpdateRequest>, IPostService
     {
         public PostService(blogContext context, IMapper mapper) : base(context, mapper)
         {
         }
 
 
-     
 
 
-        public override Models.Post Insert(PostUpsertRequest insert)
+        public override IEnumerable<Models.Post> Get(PostSearchObjects search = null)
         {
-            var entity= base.Insert(insert);
+
+
+            return base.Get(search);
+        }
+
+
+        public override Models.Post Insert(PostInsertRequest insert)
+        {
+            var entity = base.Insert(insert);
 
             foreach (var tagName in insert.TagList)
             {
@@ -39,26 +46,26 @@ namespace blog.Services.Services
 
 
             return entity;
-    
+
         }
-        public override void BeforeInsert(PostUpsertRequest insert, Database.Post entity)
+        public override void BeforeInsert(PostInsertRequest insert, Database.Post entity)
         {
             entity.CreatedAt = DateTime.Now;
             entity.Slug=ConvertToSlug(insert.Title);
             base.BeforeInsert(insert, entity);
         }
 
-    
 
-       
 
-        public override Models.Post Update(int id, PostUpsertRequest update)
+
+
+        public override Models.Post Update(int id, PostUpdateRequest update)
         {
             return base.Update(id, update);
         }
 
-        public override void BeforeUpdate(PostUpsertRequest update, Database.Post entity)
-        {       
+        public override void BeforeUpdate(PostUpdateRequest update, Database.Post entity)
+        {
             entity.UpdatedAt=DateTime.Now;
             entity.Slug=ConvertToSlug(update.Title);
             base.BeforeUpdate(update, entity);
@@ -71,10 +78,20 @@ namespace blog.Services.Services
 
         public Models.Post GetBySlug(string slug)
         {
-           var entity=_context.Posts.FirstOrDefault(p => p.Slug!.Equals(slug));
+
+            var entity = _context.Posts.FirstOrDefault(p => p.Slug!.Equals(slug));
+
             if (entity!=null)
             {
-                return _mapper.Map<Models.Post>(entity);
+                var TagList = _context.Tags.Where(x => x.PostId==entity!.PostId).ToList();
+
+                var entityToReturn = _mapper.Map<Models.Post>(entity);
+                foreach (var tag in TagList)
+                {
+                    entityToReturn.TagList.Add(tag.Name!);
+
+                }
+                return entityToReturn;
             }
             return null;
 
@@ -97,7 +114,7 @@ namespace blog.Services.Services
             return entityToReturn;
         }
 
-        public Models.Post UpdateBySlug(string slug, PostUpsertRequest update)
+        public Models.Post UpdateBySlug(string slug, PostUpdateRequest update)
         {
             var set = _context.Set<Database.Post>();
             var entity = _context.Posts.FirstOrDefault(p => p.Slug!.Equals(slug));
@@ -120,7 +137,7 @@ namespace blog.Services.Services
         {
             var filteredQuery = base.AddFilter(query, search);
 
-            var tagsFromDb=_context.Set<Database.Tag>();
+            var tagsFromDb = _context.Set<Database.Tag>();
 
 
 
@@ -128,7 +145,7 @@ namespace blog.Services.Services
             {
                 var tags = tagsFromDb.Where(t => t.Name==search.TagName);
 
-                List<int>tagIds=new List<int>();
+                List<int> tagIds = new();
 
                 foreach (var tag in tags)
                 {

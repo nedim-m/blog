@@ -102,5 +102,17 @@ namespace blog.Services.Services
 
             return _mapper.Map<Models.Post>(entity);
         }
+
+       /* public override IQueryable<Database.Post> AddFilter(IQueryable<Database.Post> query, PostSearchObjects search = null)
+        {
+            var filteredQuery = base.AddFilter(query, search);
+
+            if (!string.IsNullOrWhiteSpace(search?.TagName))
+            {
+                filteredQuery = filteredQuery.Where(x => x.);
+            }
+
+            return base.AddFilter(query, search);
+        }*/
     }
 }

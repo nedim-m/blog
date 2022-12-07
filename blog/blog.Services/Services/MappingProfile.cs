@@ -15,7 +15,10 @@ namespace blog.Services.Services
         {
             CreateMap<Database.Post, Post>();
             CreateMap<PostUpsertRequest, Database.Post>();
-            
+
+
+            CreateMap<Database.Tag, Tag>();
+
 
         }
     }

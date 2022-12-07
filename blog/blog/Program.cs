@@ -1,3 +1,4 @@
+using blog.Models.SearchObjects;
 using blog.Services.Database;
 using blog.Services.IServices;
 using blog.Services.Services;
@@ -15,6 +16,7 @@ builder.Services.AddSwaggerGen();
 
 
 builder.Services.AddTransient<IPostService, PostService>();
+builder.Services.AddTransient<IService<blog.Models.Tag,BaseSearchObject>,Service<blog.Models.Tag,blog.Services.Database.Tag,BaseSearchObject>>();
 
 
 

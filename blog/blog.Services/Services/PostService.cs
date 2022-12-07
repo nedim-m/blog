@@ -26,11 +26,24 @@ namespace blog.Services.Services
         public override IEnumerable<Models.Post> Get(PostSearchObjects search = null)
         {
             var entity = base.Get(search);
+           
+            
+
             foreach(var item in entity)
             {
-                item.TagList=Tags(item.PostId);
+                item.TagList=Tags(item.Slug);
             }
             
+            return entity;
+        }
+        public override Models.Post GetById(int id)
+        {
+            var entity= base.GetById(id);
+            var postFromDb = _context.Set<Database.Post>();
+
+            var slug = postFromDb.Find(id).Slug;
+
+            entity.TagList=Tags(slug);
             return entity;
         }
 
@@ -39,10 +52,13 @@ namespace blog.Services.Services
         {
             var entity = base.Insert(insert);
 
+            var postFromDb = _context.Set<Database.Post>();
+            var postId = postFromDb.Where(i => i.Title==insert.Title).FirstOrDefault().PostId;
+
             foreach (var tagName in insert.TagList)
             {
                 Database.Tag tag = new Database.Tag();
-                tag.PostId=entity.PostId;
+                tag.PostId=postId;
                 tag.Name=tagName;
 
                 _context.Tags.Add(tag);
@@ -166,10 +182,14 @@ namespace blog.Services.Services
 
     
 
-        public List<string>Tags(int id)
+        public List<string>Tags(string slug)
         {
             var tagsFromDb = _context.Set<Database.Tag>();
-            var tagsToPush = tagsFromDb.Where(x => x.PostId==id).ToList();
+            var postFromDb = _context.Set<Database.Post>();
+            var postId=postFromDb.Where(i=>i.Slug==slug).FirstOrDefault().PostId;
+
+
+            var tagsToPush = tagsFromDb.Where(x => x.PostId==postId).ToList();
 
             List<string> tags = new();
 

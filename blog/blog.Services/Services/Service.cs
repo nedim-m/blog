@@ -37,7 +37,7 @@ namespace blog.Services.Services
             return _mapper.Map<IList<T>>(list);
         }
 
-        public T GetById(int id)
+        public virtual T GetById(int id)
         {
             var set = _context.Set<TDb>();
             var entitiy = set.Find(id);

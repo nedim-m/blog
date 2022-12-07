@@ -5,6 +5,7 @@ using blog.Models.Requests;
 using blog.Models.SearchObjects;
 using blog.Services.Database;
 using blog.Services.IServices;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,9 +25,13 @@ namespace blog.Services.Services
 
         public override IEnumerable<Models.Post> Get(PostSearchObjects search = null)
         {
-
-
-            return base.Get(search);
+            var entity = base.Get(search);
+            foreach(var item in entity)
+            {
+                item.TagList=Tags(item.PostId);
+            }
+            
+            return entity;
         }
 
 
@@ -157,6 +162,22 @@ namespace blog.Services.Services
             }
 
             return filteredQuery;
+        }
+
+    
+
+        public List<string>Tags(int id)
+        {
+            var tagsFromDb = _context.Set<Database.Tag>();
+            var tagsToPush = tagsFromDb.Where(x => x.PostId==id).ToList();
+
+            List<string> tags = new();
+
+            foreach (var tag in tagsToPush)
+            {
+                tags.Add(tag.Name!);
+            }
+            return tags;
         }
     }
 }

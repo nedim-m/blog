@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Azure;
 using blog.Models;
 using blog.Models.Requests;
 using blog.Models.SearchObjects;
@@ -24,8 +25,20 @@ namespace blog.Services.Services
 
         public override Models.Post Insert(PostUpsertRequest insert)
         {
-           
-            return base.Insert(insert);
+            var entity= base.Insert(insert);
+
+            foreach (var tagName in insert.TagList)
+            {
+                Database.Tag tag = new Database.Tag();
+                tag.PostId=entity.PostId;
+                tag.Name=tagName;
+
+                _context.Tags.Add(tag);
+            }
+            _context.SaveChanges();
+
+
+            return entity;
     
         }
         public override void BeforeInsert(PostUpsertRequest insert, Database.Post entity)
@@ -103,16 +116,30 @@ namespace blog.Services.Services
             return _mapper.Map<Models.Post>(entity);
         }
 
-       /* public override IQueryable<Database.Post> AddFilter(IQueryable<Database.Post> query, PostSearchObjects search = null)
+        public override IQueryable<Database.Post> AddFilter(IQueryable<Database.Post> query, PostSearchObjects search = null)
         {
             var filteredQuery = base.AddFilter(query, search);
 
+            var tagsFromDb=_context.Set<Database.Tag>();
+
+
+
             if (!string.IsNullOrWhiteSpace(search?.TagName))
             {
-                filteredQuery = filteredQuery.Where(x => x.);
+                var tags = tagsFromDb.Where(t => t.Name==search.TagName);
+
+                List<int>tagIds=new List<int>();
+
+                foreach (var tag in tags)
+                {
+                    tagIds.Add(tag.PostId);
+                }
+                filteredQuery = filteredQuery.Where(x => tagIds.Contains(x.PostId));
+
+
             }
 
-            return base.AddFilter(query, search);
-        }*/
+            return filteredQuery;
+        }
     }
 }

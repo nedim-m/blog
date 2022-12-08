@@ -34,7 +34,7 @@ namespace blog.Services.Services
                 item.TagList=Tags(item.Slug);
             }
             
-            return entity;
+            return entity.OrderByDescending(x=>x.CreatedAt);
         }
         public override Models.Post GetById(int id)
         {

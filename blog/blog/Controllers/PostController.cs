@@ -21,7 +21,7 @@ namespace blog.Controllers
 
 
 
-
+    
         [HttpGet("{slug}")]
         public Post GetBySlug (string slug)
         {
@@ -41,6 +41,28 @@ namespace blog.Controllers
          return _service.UpdateBySlug(slug, update);
            
         }
+
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public override Post GetById(int id)
+        {
+            return base.GetById(id);
+        }
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public override Post Insert([FromBody] PostInsertRequest insert)
+        {
+            return base.Insert(insert);
+        }
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public override Post Update(int id, [FromBody] PostUpdateRequest update)
+        {
+            return base.Update(id, update);
+        }
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public override Post Delete(int id)
+        {
+            return base.Delete(id);
+        }
+
 
     }
 }

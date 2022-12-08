@@ -15,14 +15,17 @@ namespace blog.Controllers
             _service=service;
         }
 
+
+       
         [HttpGet]
-        public IEnumerable<T> Get([FromQuery] TSearch search = null)
+        public virtual IEnumerable<T> Get([FromQuery] TSearch search = null)
         {
             return _service.Get(search);
         }
 
+       
         [HttpGet("{id:int}")]
-        public T GetById(int id)
+        public virtual T GetById(int id)
         {
             return _service.GetById(id);
         }

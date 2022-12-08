@@ -21,8 +21,7 @@ namespace blog.Services.Services
             CreateMap<Database.Tag, Tag>();
 
 
-            CreateMap<Database.Comment, Comment>();
-            CreateMap<CommentInsertRequest, Database.Comment>();
+           
 
 
         }

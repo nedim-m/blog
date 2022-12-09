@@ -6,11 +6,11 @@ namespace blog.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BaseController<T,TSearch> : ControllerBase where T:class where TSearch: class
+    public class BaseController<T,TSearch,TSingleReturn,TMultipleReturn> : ControllerBase where T:class where TSearch: class where TSingleReturn :class where TMultipleReturn:class
     {
-        public IService<T, TSearch> _service;
+        public IService<T, TSearch,TSingleReturn,TMultipleReturn> _service;
 
-        public BaseController(IService<T, TSearch> service)
+        public BaseController(IService<T, TSearch,TSingleReturn,TMultipleReturn> service)
         {
             _service=service;
         }

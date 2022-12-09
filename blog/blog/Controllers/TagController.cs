@@ -1,4 +1,5 @@
 ﻿using blog.Models;
+using blog.Models.Responses;
 using blog.Models.SearchObjects;
 using blog.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
@@ -6,11 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 namespace blog.Controllers
 {
 
-    public class TagController : BaseController<Tag, BaseSearchObject>
+    public class TagController : BaseController<Tag, BaseSearchObject, Tag, MultipleTagResponse>
     {
        
 
-        public TagController(IService<Tag, BaseSearchObject> service)
+        public TagController(IService<Tag, BaseSearchObject, Tag, MultipleTagResponse> service)
             : base(service)
         {
         }

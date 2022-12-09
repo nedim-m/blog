@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace blog.Services.IServices
 {
-    public interface IService<T,TSearch> where T:class where TSearch:class
+    public interface IService<T,TSearch, TSingleReturn, TMultipleReturn> where T:class where TSearch:class
     {
         public IEnumerable<T> Get(TSearch search = null);
         T GetById(int id);

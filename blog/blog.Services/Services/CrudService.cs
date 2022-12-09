@@ -10,8 +10,8 @@ using System.Threading.Tasks;
 
 namespace blog.Services.Services
 {
-    public class CrudService<T, TDb, TSearch, TInsert, TUpdate> : Service<T, TDb, TSearch>, ICrudService<T, TSearch, TInsert, TUpdate>
-         where T : class where TDb : class where TSearch : BaseSearchObject where TInsert : class where TUpdate : class
+    public class CrudService<T, TDb, TSearch, TInsert, TUpdate, TSingleReturn, TMultipleReturn> : Service<T, TDb, TSearch, TSingleReturn,TMultipleReturn>, ICrudService<T, TSearch, TInsert, TUpdate, TSingleReturn, TMultipleReturn>
+         where T : class where TDb : class where TSearch : BaseSearchObject where TInsert : class where TUpdate : class where TSingleReturn:class where TMultipleReturn:class
     {
         public CrudService(blogContext context, IMapper mapper) : base(context, mapper)
         {

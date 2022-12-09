@@ -1,5 +1,6 @@
 ﻿using blog.Models;
 using blog.Models.Requests;
+using blog.Models.Responses;
 using blog.Models.SearchObjects;
 using blog.Services.IServices;
 using blog.Services.Services;
@@ -9,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace blog.Controllers
 {
 
-    public class PostController : BaseCrudController<Post, PostSearchObjects, PostInsertRequest, PostUpdateRequest>
+    public class PostController : BaseCrudController<Post, PostSearchObjects, PostInsertRequest, PostUpdateRequest,SinglePostReturn,MultiplePostReturn>
     {
         public IPostService _service { get; set; }
 
@@ -47,11 +48,7 @@ namespace blog.Controllers
         {
             return base.GetById(id);
         }
-        [ApiExplorerSettings(IgnoreApi = true)]
-        public override Post Insert([FromBody] PostInsertRequest insert)
-        {
-            return base.Insert(insert);
-        }
+     
         [ApiExplorerSettings(IgnoreApi = true)]
         public override Post Update(int id, [FromBody] PostUpdateRequest update)
         {

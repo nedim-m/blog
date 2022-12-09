@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace blog.Services.IServices
 {
-    public interface IPostService:ICrudService<Post, PostSearchObjects, PostInsertRequest,PostUpdateRequest>
+    public interface IPostService:ICrudService<Post, PostSearchObjects, PostInsertRequest,PostUpdateRequest,SinglePostReturn,MultiplePostReturn>
     {
         SinglePostReturn GetBySlug(string slug);
         SinglePostReturn DeleteBySlug(string slug);

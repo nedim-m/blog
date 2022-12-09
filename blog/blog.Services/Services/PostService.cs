@@ -2,6 +2,7 @@
 using Azure;
 using blog.Models;
 using blog.Models.Requests;
+using blog.Models.Responses;
 using blog.Models.SearchObjects;
 using blog.Services.Database;
 using blog.Services.IServices;
@@ -14,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace blog.Services.Services
 {
-    public class PostService : CrudService<Models.Post, Database.Post, PostSearchObjects, PostInsertRequest, PostUpdateRequest>, IPostService
+    public class PostService : CrudService<Models.Post, Database.Post, PostSearchObjects, PostInsertRequest, PostUpdateRequest,SinglePostReturn,MultiplePostReturn>, IPostService
     {
         public PostService(blogContext context, IMapper mapper) : base(context, mapper)
         {

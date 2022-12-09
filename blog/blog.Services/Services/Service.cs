@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace blog.Services.Services
 {
-    public class Service<T, TDb, TSearch> : IService<T, TSearch> where T : class where TDb : class where TSearch : BaseSearchObject
+    public class Service<T, TDb, TSearch, TSingleReturn,TMultipleReturn> : IService<T, TSearch,TSingleReturn, TMultipleReturn> where T : class where TDb : class where TSearch : BaseSearchObject where TSingleReturn:class where TMultipleReturn:class
     {
 
         public blogContext _context;

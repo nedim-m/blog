@@ -1,7 +1,7 @@
 ﻿using blog.Models;
 using blog.Models.SearchObjects;
 using blog.Services.IServices;
-
+using Microsoft.AspNetCore.Mvc;
 
 namespace blog.Controllers
 {
@@ -14,5 +14,12 @@ namespace blog.Controllers
             : base(service)
         {
         }
+
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public override Tag GetById(int id)
+        {
+            return base.GetById(id);
+        }
+
     }
 }

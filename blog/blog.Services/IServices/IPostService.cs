@@ -1,5 +1,6 @@
 ﻿using blog.Models;
 using blog.Models.Requests;
+using blog.Models.Responses;
 using blog.Models.SearchObjects;
 using System;
 using System.Collections.Generic;
@@ -11,8 +12,8 @@ namespace blog.Services.IServices
 {
     public interface IPostService:ICrudService<Post, PostSearchObjects, PostInsertRequest,PostUpdateRequest>
     {
-        Post GetBySlug(string slug);
-        Post DeleteBySlug(string slug);
-        Post UpdateBySlug(string slug, PostUpdateRequest update);
+        SinglePostReturn GetBySlug(string slug);
+        SinglePostReturn DeleteBySlug(string slug);
+        SinglePostReturn UpdateBySlug(string slug, PostUpdateRequest update);
     }
 }

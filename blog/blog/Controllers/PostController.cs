@@ -23,20 +23,20 @@ namespace blog.Controllers
 
     
         [HttpGet("{slug}")]
-        public Post GetBySlug (string slug)
+        public Models.Responses.SinglePostReturn GetBySlug (string slug)
         {
             return _service.GetBySlug(slug);
         }
 
         [HttpDelete("{slug}")]
-        public Post DeleteBySlug(string slug)
+        public Models.Responses.SinglePostReturn DeleteBySlug(string slug)
         {
             return _service.DeleteBySlug(slug);
         }
 
 
         [HttpPut("{slug}")]
-        public Post UpdateBySlug(string slug,[FromBody] PostUpdateRequest update)
+        public Models.Responses.SinglePostReturn UpdateBySlug(string slug,[FromBody] PostUpdateRequest update)
         {
          return _service.UpdateBySlug(slug, update);
            

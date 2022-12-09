@@ -97,7 +97,7 @@ namespace blog.Services.Services
 
         }
 
-        public Models.Post GetBySlug(string slug)
+        public Models.Responses.SinglePostReturn GetBySlug(string slug)
         {
 
             var entity = _context.Posts.FirstOrDefault(p => p.Slug!.Equals(slug));
@@ -106,10 +106,10 @@ namespace blog.Services.Services
             {
                 var TagList = _context.Tags.Where(x => x.PostId==entity!.PostId).ToList();
 
-                var entityToReturn = _mapper.Map<Models.Post>(entity);
+                var entityToReturn = _mapper.Map<Models.Responses.SinglePostReturn>(entity);
                 foreach (var tag in TagList)
                 {
-                    entityToReturn.TagList.Add(tag.Name!);
+                    entityToReturn.blogPost.TagList.Add(tag.Name!);
 
                 }
                 return entityToReturn;
@@ -118,11 +118,11 @@ namespace blog.Services.Services
 
         }
 
-        public Models.Post DeleteBySlug(string slug)
+        public Models.Responses.SinglePostReturn DeleteBySlug(string slug)
         {
             var set = _context.Set<Database.Post>();
             var entity = _context.Posts.FirstOrDefault(p => p.Slug!.Equals(slug));
-            var entityToReturn = _mapper.Map<Models.Post>(entity);
+            var entityToReturn = _mapper.Map<Models.Responses.SinglePostReturn>(entity);
             if (entity!=null)
             {
                 set.Remove(entity);
@@ -135,7 +135,7 @@ namespace blog.Services.Services
             return entityToReturn;
         }
 
-        public Models.Post UpdateBySlug(string slug, PostUpdateRequest update)
+        public Models.Responses.SinglePostReturn UpdateBySlug(string slug, PostUpdateRequest update)
         {
             var set = _context.Set<Database.Post>();
             var entity = _context.Posts.FirstOrDefault(p => p.Slug!.Equals(slug));
@@ -151,7 +151,8 @@ namespace blog.Services.Services
             BeforeUpdate(update, entity);
             _context.SaveChanges();
 
-            return _mapper.Map<Models.Post>(entity);
+
+            return _mapper.Map<Models.Responses.SinglePostReturn>(entity);
         }
 
         public override IQueryable<Database.Post> AddFilter(IQueryable<Database.Post> query, PostSearchObjects search = null)

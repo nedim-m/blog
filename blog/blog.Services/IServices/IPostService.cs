@@ -16,5 +16,12 @@ namespace blog.Services.IServices
         SinglePostReturn DeleteBySlug(string slug);
         SinglePostReturn UpdateBySlug(string slug, PostUpdateRequest update);
         MultiplePostReturn GetAll(PostSearchObjects search = null);
+        SingleCommentResponse InsertCommentToPost(string slug, CommentInsertRequest insert);
+        MultipleCommentResponse GetCommentsFromBlog(string slug);
+        SingleCommentResponse DeleteCommentFromPost(string slug,int id);
+
+
+
+
     }
 }

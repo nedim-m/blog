@@ -25,15 +25,10 @@ namespace blog.Services.Services
                .ForPath(dest => dest.blogPost.Description, opt => opt.MapFrom(src => src.Description))
                .ForPath(dest => dest.blogPost.Title, opt => opt.MapFrom(src => src.Title));
 
-
-
-
-
-
             CreateMap<Database.Tag, Tag>();
 
 
-           
+            CreateMap<Database.Comment, Models.Comment>();
 
 
         }

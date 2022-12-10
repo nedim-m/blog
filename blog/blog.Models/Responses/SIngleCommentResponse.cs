@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace blog.Models.Responses
 {
-    public class SIngleCommentResponse
+    public class SingleCommentResponse
     {
         public Comment comment { get; set; }
     }

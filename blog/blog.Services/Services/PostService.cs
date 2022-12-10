@@ -10,12 +10,13 @@ using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace blog.Services.Services
 {
-    public class PostService : CrudService<Models.Post, Database.Post, PostSearchObjects, PostInsertRequest, PostUpdateRequest,SinglePostReturn,MultiplePostReturn>, IPostService
+    public class PostService : CrudService<Models.Post, Database.Post, PostSearchObjects, PostInsertRequest, PostUpdateRequest, SinglePostReturn, MultiplePostReturn>, IPostService
     {
         public PostService(blogContext context, IMapper mapper) : base(context, mapper)
         {
@@ -27,15 +28,15 @@ namespace blog.Services.Services
         public override IEnumerable<Models.Post> Get(PostSearchObjects search = null)
         {
             var entity = base.Get(search);
-           
-            
 
-            foreach(var item in entity)
+
+
+            foreach (var item in entity)
             {
                 item.TagList=Tags(item.Slug);
             }
-            
-            return entity.OrderByDescending(x=>x.CreatedAt);
+
+            return entity.OrderByDescending(x => x.CreatedAt);
 
         }
 
@@ -47,7 +48,7 @@ namespace blog.Services.Services
             objToReturn.blogPosts=model;
             objToReturn.postsCount=model.Count();
             return objToReturn;
-          
+
 
         }
 
@@ -55,7 +56,7 @@ namespace blog.Services.Services
 
         public override Models.Post GetById(int id)
         {
-            var entity= base.GetById(id);
+            var entity = base.GetById(id);
             var postFromDb = _context.Set<Database.Post>();
 
             var slug = postFromDb.Find(id).Slug;
@@ -198,26 +199,130 @@ namespace blog.Services.Services
             return filteredQuery;
         }
 
-    
 
-        public List<string>Tags(string slug)
+
+        public List<string> Tags(string slug)
         {
-            var tagsFromDb = _context.Set<Database.Tag>();
-            var postFromDb = _context.Set<Database.Post>();
-            var postId=postFromDb.Where(i=>i.Slug==slug).FirstOrDefault().PostId;
 
 
-            var tagsToPush = tagsFromDb.Where(x => x.PostId==postId).ToList();
+            var postId = PostId(slug);
 
-            List<string> tags = new();
-
-            foreach (var tag in tagsToPush)
+            if (postId!=-1)
             {
-                tags.Add(tag.Name!);
+                var tagsFromDb = _context.Set<Database.Tag>();
+
+                var tagsToPush = tagsFromDb.Where(x => x.PostId==postId).ToList();
+
+                List<string> tags = new();
+
+                foreach (var tag in tagsToPush)
+                {
+                    tags.Add(tag.Name!);
+                }
+                return tags;
             }
-            return tags;
+            return null;
+
         }
 
-      
+        public SingleCommentResponse InsertCommentToPost(string slug, CommentInsertRequest insert)
+        {
+
+            var postId = PostId(slug);
+
+            if (postId!=-1)
+            {
+
+                var commentToAdd = new Database.Comment
+                {
+                    Body=insert.Body,
+                    CreatedAt=DateTime.Now,
+                    UpdatedAt=DateTime.Now,
+                    PostId=postId
+                };
+                _context.Comments.Add(commentToAdd);
+                _context.SaveChanges();
+
+                SingleCommentResponse objToReturn = new SingleCommentResponse
+                {
+                    comment=_mapper.Map<Models.Comment>(commentToAdd)
+                };
+
+                return objToReturn;
+            }
+            return null;
+
+        }
+
+        public MultipleCommentResponse GetCommentsFromBlog(string slug)
+        {
+            var postId = PostId(slug);
+            if (postId!=-1)
+            {
+                var commentsFromDb = _context.Set<Database.Comment>();
+                var commentsForReturn = commentsFromDb.Where(x => x.PostId==postId).ToList();
+
+
+                var list = _mapper.Map<IList<Models.Comment>>(commentsForReturn);
+
+                var objToReturn = new MultipleCommentResponse
+                {
+                    comments=list
+                };
+
+                return objToReturn;
+            }
+            return null;
+
+        }
+
+
+
+
+
+
+        public SingleCommentResponse DeleteCommentFromPost(string slug, int id)
+        {
+            var postId = PostId(slug);
+            if (postId!=-1 && id>0)
+            {
+
+                var commentFromDb = _context.Set<Database.Comment>();
+
+                var commentToDelete = commentFromDb.Where(x => x.PostId==postId && x.CommentId==id).FirstOrDefault();
+
+                if (commentToDelete!=null)
+                {
+                    _context.Remove(commentToDelete);
+                    _context.SaveChanges();
+                    SingleCommentResponse objToReturn = new SingleCommentResponse
+                    {
+                        comment=_mapper.Map<Models.Comment>(commentToDelete)
+                    };
+
+                    return objToReturn;
+
+                }
+
+            }
+            return null;
+        }
+
+
+
+
+        int PostId(string slug)
+        {
+            var postFromDb = _context.Set<Database.Post>();
+            int postId = -1;
+
+            var post = postFromDb.Where(i => i.Slug==slug).FirstOrDefault();
+            if (post!=null)
+                postId=post.PostId;
+
+
+            return postId;
+
+        }
     }
 }

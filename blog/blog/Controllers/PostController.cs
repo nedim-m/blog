@@ -49,6 +49,25 @@ namespace blog.Controllers
             return _service.GetAll(search);
         }
 
+        [HttpPost("{slug}/comments")]
+
+        public SingleCommentResponse InsertCommentToPost(string slug, [FromBody] CommentInsertRequest insert)
+        {
+            return _service.InsertCommentToPost(slug, insert);
+        }
+
+        [HttpDelete("{slug}/comments/{id}")]
+
+        public SingleCommentResponse DeleteCommentFromPost(string slug, int id)
+        {
+            return _service.DeleteCommentFromPost(slug, id);
+        }
+        [HttpGet("{slug}/comments")]
+        public MultipleCommentResponse GetCommentsFromBlog(string slug)
+        {
+            return _service.GetCommentsFromBlog(slug);
+        }
+
 
         [ApiExplorerSettings(IgnoreApi = true)]
         public override Post GetById(int id)

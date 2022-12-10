@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace blog.Models.Responses
 {
-    public class MultiplePostReturn
+    public class MultipleCommentResponse
     {
-        public IEnumerable<Post> blogPosts { get; set; }
-        public int postsCount { get; set; }
+        public IEnumerable<Comment> comments { get; set; }
     }
 }

@@ -8,7 +8,7 @@ namespace blog.Models.Responses
 {
     public class MultipleTagResponse
     {
-        public List<Tag> tags { get; set; }
+        public List<string> tags { get; set; } = new List<string> { };
 
     }
 }

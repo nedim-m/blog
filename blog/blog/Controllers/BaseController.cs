@@ -17,12 +17,7 @@ namespace blog.Controllers
 
 
        
-        [HttpGet]
-        public virtual IEnumerable<T> Get([FromQuery] TSearch search = null)
-        {
-            return _service.Get(search);
-        }
-
+       
        
         [HttpGet("{id:int}")]
         public virtual T GetById(int id)

@@ -15,5 +15,6 @@ namespace blog.Services.IServices
         SinglePostReturn GetBySlug(string slug);
         SinglePostReturn DeleteBySlug(string slug);
         SinglePostReturn UpdateBySlug(string slug, PostUpdateRequest update);
+        MultiplePostReturn GetAll(PostSearchObjects search = null);
     }
 }

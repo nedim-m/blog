@@ -36,7 +36,23 @@ namespace blog.Services.Services
             }
             
             return entity.OrderByDescending(x=>x.CreatedAt);
+
         }
+
+        public MultiplePostReturn GetAll(PostSearchObjects search = null)
+        {
+            var model = Get(search);
+
+            var objToReturn = new MultiplePostReturn();
+            objToReturn.blogPosts=model;
+            objToReturn.postsCount=model.Count();
+            return objToReturn;
+          
+
+        }
+
+
+
         public override Models.Post GetById(int id)
         {
             var entity= base.GetById(id);
@@ -201,5 +217,7 @@ namespace blog.Services.Services
             }
             return tags;
         }
+
+      
     }
 }

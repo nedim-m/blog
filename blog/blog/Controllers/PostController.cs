@@ -10,11 +10,11 @@ using Microsoft.AspNetCore.Mvc;
 namespace blog.Controllers
 {
 
-    public class PostController : BaseCrudController<Post, PostSearchObjects, PostInsertRequest, PostUpdateRequest,SinglePostReturn,MultiplePostReturn>
+    public class PostController : BaseCrudController<Post, PostSearchObjects, PostInsertRequest, PostUpdateRequest, SinglePostReturn, MultiplePostReturn>
     {
         public IPostService _service { get; set; }
 
-        public PostController(IPostService service):base(service)
+        public PostController(IPostService service) : base(service)
         {
             _service=service;
         }
@@ -22,9 +22,9 @@ namespace blog.Controllers
 
 
 
-    
+
         [HttpGet("{slug}")]
-        public Models.Responses.SinglePostReturn GetBySlug (string slug)
+        public Models.Responses.SinglePostReturn GetBySlug(string slug)
         {
             return _service.GetBySlug(slug);
         }
@@ -37,11 +37,18 @@ namespace blog.Controllers
 
 
         [HttpPut("{slug}")]
-        public Models.Responses.SinglePostReturn UpdateBySlug(string slug,[FromBody] PostUpdateRequest update)
+        public Models.Responses.SinglePostReturn UpdateBySlug(string slug, [FromBody] PostUpdateRequest update)
         {
-         return _service.UpdateBySlug(slug, update);
-           
+            return _service.UpdateBySlug(slug, update);
+
         }
+
+        [HttpGet]
+        public MultiplePostReturn GetAll([FromQuery] PostSearchObjects search = null)
+        {
+            return _service.GetAll(search);
+        }
+
 
         [ApiExplorerSettings(IgnoreApi = true)]
         public override Post GetById(int id)
@@ -59,6 +66,7 @@ namespace blog.Controllers
         {
             return base.Delete(id);
         }
+
 
 
     }

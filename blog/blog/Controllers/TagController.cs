@@ -9,17 +9,24 @@ namespace blog.Controllers
 
     public class TagController : BaseController<Tag, BaseSearchObject, Tag, MultipleTagResponse>
     {
-       
 
-        public TagController(IService<Tag, BaseSearchObject, Tag, MultipleTagResponse> service)
+        public ITagService _service { get; set; }
+        public TagController(ITagService service)
             : base(service)
         {
+            _service = service;
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
         public override Tag GetById(int id)
         {
             return base.GetById(id);
+        }
+
+        [HttpGet]
+        public MultipleTagResponse GetAll()
+        {
+            return _service.GetAll();
         }
 
     }

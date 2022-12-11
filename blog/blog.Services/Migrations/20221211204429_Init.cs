@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace blog.Services.Migrations
 {
     /// <inheritdoc />
@@ -69,6 +71,44 @@ namespace blog.Services.Migrations
                         principalTable: "Posts",
                         principalColumn: "PostId",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Posts",
+                columns: new[] { "PostId", "Body", "CreatedAt", "Description", "Slug", "Title", "UpdatedAt" },
+                values: new object[,]
+                {
+                    { 1, "This is body", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "This is description", "this-is-title", "This is title", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, "This is body2", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "This is description2", "this-is-title2", "This is title2", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 3, "This is body3", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "This is description3", "this-is-title3", "This is title3", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Comments",
+                columns: new[] { "CommentId", "Body", "CreatedAt", "PostId", "UpdatedAt" },
+                values: new object[,]
+                {
+                    { 1, "This is a nice comment", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, "This is a nice comment1", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Tags",
+                columns: new[] { "TagId", "Name", "PostId" },
+                values: new object[,]
+                {
+                    { 1, "iOS", 1 },
+                    { 2, "AR", 1 },
+                    { 3, "Tag", 1 },
+                    { 4, "IT", 2 },
+                    { 5, "OFF", 2 },
+                    { 6, "Tag", 2 },
+                    { 7, "iOS", 3 },
+                    { 8, "UFC", 3 },
+                    { 9, "Tag", 3 },
+                    { 10, "IT", 3 },
+                    { 11, "OFF", 3 },
+                    { 12, "OFC", 3 }
                 });
 
             migrationBuilder.CreateIndex(

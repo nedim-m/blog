@@ -49,6 +49,11 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+using (var scope = app.Services.CreateScope())
+{
+    var dataContext = scope.ServiceProvider.GetRequiredService<blogContext>();
+    dataContext.Database.Migrate();
+}
 
 
 app.Run();

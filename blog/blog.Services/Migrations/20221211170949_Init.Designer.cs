@@ -12,8 +12,8 @@ using blog.Services.Database;
 namespace blog.Services.Migrations
 {
     [DbContext(typeof(blogContext))]
-    [Migration("20221206154945_Initial")]
-    partial class Initial
+    [Migration("20221211170949_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,10 +39,15 @@ namespace blog.Services.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.HasKey("CommentId");
+
+                    b.HasIndex("PostId");
 
                     b.ToTable("Comments");
                 });
@@ -97,6 +102,17 @@ namespace blog.Services.Migrations
                     b.HasIndex("PostId");
 
                     b.ToTable("Tags");
+                });
+
+            modelBuilder.Entity("blog.Services.Database.Comment", b =>
+                {
+                    b.HasOne("blog.Services.Database.Post", "Post")
+                        .WithMany()
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Post");
                 });
 
             modelBuilder.Entity("blog.Services.Database.Tag", b =>

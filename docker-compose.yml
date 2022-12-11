@@ -1,0 +1,36 @@
+version: '3'
+services:
+#mssql docker
+  blog-sql:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    restart: unless-stopped
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Test123@
+      - MSSQL_PID=Developer
+    ports:
+      - 1401:1433
+    expose:
+        - 1433
+    networks:
+      - blognetwork
+
+  blog-api:
+    restart: unless-stopped
+    build:
+      context: .
+    environment:
+      - ConnectionStrings:DefaultConnection=Server=blog-sql,1433;Database=blog_db;User=sa;Password=Test123@;Trust Server Certificate=true;ConnectRetryCount=0
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - 5192:5192
+    networks:
+      - blognetwork
+    links:
+      - blog-sql
+    depends_on:
+      - blog-sql
+      
+networks:
+  blognetwork:
+    driver: bridge      

@@ -5,9 +5,15 @@ VisualStudioVersion = 17.4.33122.133
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "blog", "blog\blog.csproj", "{FD9D4E7F-C4DA-4791-A6A9-CEA3701490D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "blog.Services", "blog.Services\blog.Services.csproj", "{710FE017-78B5-4691-82A0-DECCD881CF5B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "blog.Services", "blog.Services\blog.Services.csproj", "{710FE017-78B5-4691-82A0-DECCD881CF5B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "blog.Models", "blog.Models\blog.Models.csproj", "{B962CFE3-A33F-401C-8983-912CBEAB3E6C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "blog.Models", "blog.Models\blog.Models.csproj", "{B962CFE3-A33F-401C-8983-912CBEAB3E6C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{66868D62-A310-42A3-9ED4-FEBFC39DA545}"
+	ProjectSection(SolutionItems) = preProject
+		..\docker-compose.yml = ..\docker-compose.yml
+		..\Dockerfile = ..\Dockerfile
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

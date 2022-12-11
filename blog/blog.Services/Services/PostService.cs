@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace blog.Services.Services
@@ -111,7 +112,9 @@ namespace blog.Services.Services
         }
         public string ConvertToSlug(string title)
         {
-            return title.ToLower().Replace(" ", "-");
+            
+            return title.ToLower().Replace(" ", "-").Replace("_", "-").Replace("?","").Replace("!","").Replace(".","").Replace("@","");
+            //it can be done more precise with regex
 
         }
 
